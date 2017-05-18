@@ -38,6 +38,9 @@ sub match {
     return gooby($core,$core->{'receiver_chan'},$core->{'target'});
   }
 
+  elsif($core->{'message'} =~ /^thank (.+)$/i) {
+    return thank($core,$core->{'receiver_chan'}, $1);
+  }
 
   return '';
 }
@@ -112,4 +115,11 @@ sub gooby {
   $target = memeify_names($target);
 
   $core->{'output'}->parse("MESSAGE>${chan}>${target} pls");
+}
+
+sub thank {
+    my ($core,$chan,$target) = @_;
+    # Find way to make jane think she received this message:
+    # :redstonehelper!redstonehelper@mememodule.fake.host PRIVMSG ${chan} :&buttcoin tip ${target}
+    $core->{'output'}->parse("MESSAGE>${chan}>${target}: thank")
 }
